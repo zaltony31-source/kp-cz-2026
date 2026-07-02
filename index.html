@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Доработки Битрикс24 и создание интранета — Flash-Format</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@800,700,500&f[]=satoshi@700,500,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#CC1B1B;--black:#1A1A1A;--white:#fff;--bg:#F6F6F6;--muted:#6B6B6B;--border:#E2E2E2;--max:1100px}
+html{scroll-behavior:smooth}
+body{font-family:'Satoshi',sans-serif;color:var(--black);background:var(--white);font-size:16px;line-height:1.65}
+
+/* TOPBAR */
+.topbar{background:var(--black);color:rgba(255,255,255,.6);font-size:12.5px;padding:9px 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.topbar a{color:rgba(255,255,255,.8);text-decoration:none}
+.topbar a:hover{color:#fff}
+.topbar-left{display:flex;gap:20px;flex-wrap:wrap}
+.topbar-left span{display:flex;align-items:center;gap:6px}
+
+/* HERO */
+.hero-wrap{background:var(--white);padding:56px 40px 52px;border-bottom:1px solid var(--border)}
+.hero{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:flex-start}
+.hero-eyebrow{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+.hero-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{width:38px;height:38px;background:var(--red);border-radius:9px;display:flex;align-items:center;justify-content:center}
+.hero-brand{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:17px;color:var(--black);letter-spacing:-.3px}
+.divider{width:1px;height:26px;background:var(--border)}
+.hero-tag{font-size:10.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.hero-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(44px,6vw,72px);color:var(--black);line-height:1.04;letter-spacing:-2.5px;margin-bottom:16px}
+.hero-title .accent{color:var(--red)}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.6;max-width:540px;margin-bottom:24px}
+.hero-meta{font-size:13px;color:var(--muted)}
+.hero-meta strong{color:var(--black)}
+
+/* RED CIRCLE */
+.price-circle{width:200px;height:200px;border-radius:50%;background:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;flex-shrink:0}
+.price-circle-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px;line-height:1.3}
+.price-circle-amount{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:30px;color:#fff;line-height:1.1}
+.price-circle-sub{font-size:10px;color:rgba(255,255,255,.6);margin-top:6px}
+
+/* NAV */
+.nav-wrap{background:var(--white);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:100}
+nav{max-width:var(--max);margin:0 auto;display:flex;overflow-x:auto;padding:0 40px}
+nav a{display:block;padding:13px 18px;color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s}
+nav a:hover,nav a.active{color:var(--black);border-color:var(--red)}
+
+/* SECTIONS */
+.section-wrap{padding:64px 40px;border-bottom:1px solid var(--border)}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-label{display:inline-block;font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+h2{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(28px,3.5vw,38px);color:var(--black);line-height:1.1;letter-spacing:-.5px;margin-bottom:8px}
+.section-meta{color:var(--muted);font-size:13.5px;margin-bottom:36px}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse}
+thead tr{border-bottom:2px solid var(--border)}
+th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:10px 14px}
+td{padding:18px 14px;border-bottom:1px solid var(--border);font-size:15px;vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg)}
+.td-num{width:56px;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:28px;color:var(--red);opacity:.25;white-space:nowrap;padding-right:0;line-height:1;padding-top:20px}
+.td-name{width:auto}
+.item-title{font-weight:700;color:var(--black);font-size:15px;margin-bottom:8px}
+.item-desc{font-size:13px;color:var(--muted);line-height:1.65}
+.td-hours{width:80px;text-align:center;color:var(--muted);font-size:14px;white-space:nowrap}
+.td-price{width:150px;text-align:right;font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:17px;white-space:nowrap;color:var(--red)}
+.total-row td{background:var(--bg);border-top:2px solid var(--black)!important;border-bottom:none!important;font-family:'Cabinet Grotesk',sans-serif;font-weight:800}
+.total-row .td-num{font-size:11px;opacity:1;color:var(--muted);padding-top:14px}
+.total-row .td-price{font-size:22px;color:var(--black)}
+
+/* STAGES */
+.stages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:4px}
+.stage-card{background:var(--bg);border-radius:18px;padding:28px 24px;position:relative}
+.stage-card::after{content:'';position:absolute;top:20px;bottom:20px;left:0;width:3px;background:var(--border);border-radius:0 3px 3px 0}
+.stage-num{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:48px;color:var(--red);opacity:.18;line-height:1;margin-bottom:14px}
+.stage-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:16px;color:var(--black);margin-bottom:8px}
+.stage-desc{font-size:13.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.stage-pill{display:inline-flex;align-items:center;background:rgba(0,0,0,.07);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--muted)}
+
+/* CTA */
+.cta-wrap{padding:48px 40px}
+.cta-inner{max-width:var(--max);margin:0 auto}
+.cta-block{background:var(--black);border-radius:24px;padding:56px 64px;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center}
+.cta-heading{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(30px,4vw,48px);color:#fff;line-height:1.05;letter-spacing:-.5px}
+.cta-heading .accent{color:var(--red)}
+.cta-sub{color:rgba(255,255,255,.5);font-size:15px;margin-top:12px;max-width:400px}
+.cta-btns{display:flex;flex-direction:column;gap:12px;flex-shrink:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:15px 30px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px;white-space:nowrap;font-family:'Satoshi',sans-serif;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn-red{background:var(--red);color:#fff}
+.btn-outline{background:rgba(255,255,255,.1);color:#fff;border:1.5px solid rgba(255,255,255,.2)}
+
+/* CONTACTS */
+.contact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-top:4px}
+.contact-card{background:var(--bg);border-radius:14px;padding:22px 20px}
+.contact-card label{display:block;font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.contact-card p{font-weight:700;font-size:15px;color:var(--black)}
+.contact-card a{color:var(--black);text-decoration:none}
+.contact-card a:hover{color:var(--red)}
+
+/* FOOTER */
+footer{background:var(--black);padding:24px 40px;text-align:center}
+.footer-inner{max-width:var(--max);margin:0 auto;color:rgba(255,255,255,.3);font-size:12px}
+.footer-inner a{color:rgba(255,255,255,.4);text-decoration:none}
+.footer-accent{color:var(--red)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .topbar{padding:10px 20px;font-size:12px}
+  .hero-wrap{padding:36px 20px}
+  .hero{grid-template-columns:1fr;gap:28px}
+  .price-circle{width:150px;height:150px;margin:0 auto}
+  .price-circle-amount{font-size:24px}
+  nav{padding:0 20px}
+  .section-wrap{padding:48px 20px}
+  .cta-wrap{padding:32px 20px}
+  .cta-block{grid-template-columns:1fr;padding:36px 28px;gap:28px;border-radius:16px}
+  .cta-btns{flex-direction:row;flex-wrap:wrap}
+  footer{padding:20px}
+  table{display:block;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 15.92z"/></svg>
+      <a href="tel:+73952567150">+7 (3952) 567-150</a>
+    </span>
+    <span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <a href="mailto:info@flashformat.pro">info@flashformat.pro</a>
+    </span>
+    <span>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <a href="https://flashformat.pro" target="_blank">flashformat.pro</a>
+    </span>
+  </div>
+  <div>ООО «Флеш-Формат» · Иркутск</div>
+</div>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-eyebrow">
+        <a href="https://flashformat.pro" class="hero-logo" target="_blank">
+          <img src="https://flashformat.ru/wp-content/themes/flashformat/images/logo.png" alt="Flash-Format" style="height:38px;width:auto;object-fit:contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="logo-icon" style="display:none">
+            <svg viewBox="0 0 40 40" fill="none" width="22" height="22"><path d="M10 30L16 10H30L26 19H20L18 30H10Z" fill="white"/></svg>
+          </div>
+          <span class="hero-brand">Flash-Format</span>
+        </a>
+        <div class="divider"></div>
+        <span class="hero-tag">Коммерческое предложение · 2026</span>
+      </div>
+      <h1 class="hero-title">Доработки<br><span class="accent">Битрикс24</span><br>и интранет</h1>
+      <p class="hero-sub">Комплексная автоматизация HR-процессов: КЭДО, внутренний ЭДО и корпоративный портал на базе Bitrix24.</p>
+      <p class="hero-meta">Подготовлено: <strong>2 июля 2026</strong> · Менеджер: <strong>Марина Стадникова</strong></p>
+    </div>
+    <div class="price-circle">
+      <div class="price-circle-label">Стоимость<br>работ</div>
+      <div class="price-circle-amount">380&thinsp;000&thinsp;₽</div>
+      <div class="price-circle-sub">95&thinsp;часов</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <nav>
+    <a href="#works">Состав работ</a>
+    <a href="#stages">Этапы внедрения</a>
+    <a href="#contacts">Контакты</a>
+  </nav>
+</div>
+
+<!-- СОСТАВ РАБОТ -->
+<div class="section-wrap" id="works">
+  <div class="section-inner">
+    <span class="section-label">Состав работ</span>
+    <h2>Предварительный бюджет</h2>
+    <p class="section-meta">Оценка стоимости проекта на основании технического задания</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:56px"></th>
+          <th>Наименование</th>
+          <th style="width:80px;text-align:center">Объём</th>
+          <th style="width:160px;text-align:right">Стоимость</th>
+        </tr>
+      </thead>
+      <tbody>
+        
+    <tr>
+      <td class="td-num">01</td>
+      <td class="td-name">
+        <div class="item-title">Предпроектное обследование и проектирование</div>
+        <div class="item-desc">КЭДО<br><span style='color:#CC1B1B'>•</span>  Интервью с кадровой службой (2–4 сессии), описание 6 процессов КЭДО (Приём сотрудника, Отпуск, Командировка, Перевод, Увольнение, Прочие документы) в AS-IS и TO-BE.<br><span style='color:#CC1B1B'>•</span>  Проектирование маршрута согласования для каждого типа документа с необходимой автоматизацией (последовательное / параллельное согласование, возврат на доработку, автоматическое завершение процесса).<br><span style='color:#CC1B1B'>•</span>  Формирование таблицы ролей доступа к КЭДО и согласованиям.<br><span style='color:#CC1B1B'>•</span>  Описание визуала и функционала 7 отчётов: количество документов, документы в работе, просроченные документы, скорость согласования, процент подписанных документов, нагрузка по подразделениям, журнал действий пользователей.<br>Внутренний ЭДО<br><span style='color:#CC1B1B'>•</span>  Интервью с ключевыми сотрудниками подразделений (3–6 сессий), описание 9 типов документов в AS-IS и TO-BE.<br><span style='color:#CC1B1B'>•</span>  Проектирование маршрутов согласования (последовательное / параллельное, возврат на доработку, автоматическое завершение).<br><span style='color:#CC1B1B'>•</span>  Формирование таблицы ролей доступа к согласованиям.<br><span style='color:#CC1B1B'>•</span>  Описание визуала и функционала 6 отчётов: количество документов, документы в работе, просроченные согласования, сроки обработки, загрузка подразделений, исполнительская дисциплина.</div>
+      </td>
+      <td class="td-hours">65&thinsp;ч</td>
+      <td class="td-price">260 000 ₽</td>
+    </tr>
+    <tr>
+      <td class="td-num">02</td>
+      <td class="td-name">
+        <div class="item-title">Лендинг корпоративного портала</div>
+        <div class="item-desc"><span style='color:#CC1B1B'>•</span>  Сбор требований, контента и ссылок; уточнение концепции.<br><span style='color:#CC1B1B'>•</span>  Настройка шаблона / темы страницы «Наш вайб»: цвета, логотип, фон, структура блоков.<br><span style='color:#CC1B1B'>•</span>  Настройка и наполнение виджетов (8 блоков): тексты и изображения для «О компании», «База знаний» и др.<br><span style='color:#CC1B1B'>•</span>  Навигационные плитки и переходы в разделы Bitrix24 (задачи, CRM, диск, чат, календарь, сотрудники).<br><span style='color:#CC1B1B'>•</span>  Создание группы «Новости компании: наш вайб» и привязка ленты новостей.<br><span style='color:#CC1B1B'>•</span>  Настройка прав доступа на редактирование страницы и виджетов.<br><span style='color:#CC1B1B'>•</span>  Виджеты-ссылки на внешние сервисы (сайт, LMS, почта).<br><span style='color:#CC1B1B'>•</span>  Тестирование: переходы, отображение виджетов, адаптивность, браузеры, скорость загрузки.<br><span style='color:#CC1B1B'>•</span>  Краткая инструкция для пользователей; эксплуатационная документация.<br><span style='color:#CC1B1B'>•</span>  Демонстрация заказчику, приёмка, запуск.</div>
+      </td>
+      <td class="td-hours">30&thinsp;ч</td>
+      <td class="td-price">120 000 ₽</td>
+    </tr>
+        <tr class="total-row">
+          <td class="td-num" style="font-size:10px;letter-spacing:1px;text-transform:uppercase;opacity:.5">ИТОГО</td>
+          <td style="font-weight:800;font-size:16px">Итого по работам</td>
+          <td style="text-align:center;font-weight:700;color:var(--black)">95&thinsp;ч</td>
+          <td class="td-price" style="color:var(--black)">380&thinsp;000&thinsp;₽</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px">* Стоимость является предварительной и уточняется по результатам предпроектного обследования.</p>
+    <div style="margin-top:20px;padding:20px 24px;background:var(--bg);border-left:3px solid var(--red);border-radius:0 12px 12px 0">
+      <p style="font-size:14px;color:var(--black);line-height:1.7">Калькуляция сформирована предварительно, на основании имеющихся данных. Точный объём работ будет определён после предпроектного обследования.<br><strong>Работа дизайнера рассчитывается индивидуально.</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- ЭТАПЫ -->
+<div class="section-wrap" id="stages">
+  <div class="section-inner">
+    <span class="section-label">Дорожная карта</span>
+    <h2>Этапы внедрения</h2>
+    <p class="section-meta">Методология реализации проекта Flash-Format</p>
+    <div class="stages-grid">
+      <div class="stage-card">
+        <div class="stage-num">01</div>
+        <div class="stage-title">Предпроектное обследование</div>
+        <div class="stage-desc">Интервью с ключевыми пользователями, описание бизнес-процессов в AS-IS и TO-BE, постановка технического задания</div>
+        <span class="stage-pill">2–3 недели</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-num">02</div>
+        <div class="stage-title">Техническое проектирование</div>
+        <div class="stage-desc">Проектирование маршрутов согласования, ролевой модели доступа, схем данных и отчётов</div>
+        <span class="stage-pill">1–2 недели</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-num">03</div>
+        <div class="stage-title">Настройка КЭДО и ЭДО</div>
+        <div class="stage-desc">Реализация 6 процессов КЭДО и 9 типов внутреннего ЭДО, настройка маршрутов и прав доступа</div>
+        <span class="stage-pill">3–4 недели</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-num">04</div>
+        <div class="stage-title">Корпоративный портал</div>
+        <div class="stage-desc">Разработка лендинга «Наш вайб»: виджеты, навигация, новости, интеграция с внешними сервисами</div>
+        <span class="stage-pill">2 недели</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-num">05</div>
+        <div class="stage-title">Тестирование и обучение</div>
+        <div class="stage-desc">Функциональное тестирование, обучение ключевых пользователей, подготовка инструкций</div>
+        <span class="stage-pill">1 неделя</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-num">06</div>
+        <div class="stage-title">Запуск и поддержка</div>
+        <div class="stage-desc">Ввод системы в эксплуатацию, демонстрация заказчику, гарантийная поддержка 3 месяца</div>
+        <span class="stage-pill">По договору</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-wrap">
+  <div class="cta-inner">
+    <div class="cta-block">
+      <div>
+        <div class="cta-heading">Готовы обсудить<br><span class="accent">ваш проект?</span></div>
+        <p class="cta-sub">Свяжитесь с нами — ответим в течение рабочего дня и уточним все детали</p>
+      </div>
+      <div class="cta-btns">
+        <a href="tel:+73952567150" class="btn btn-red">+7 (3952) 567-150</a>
+        <a href="mailto:202@567150.ru" class="btn btn-outline">202@567150.ru</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- КОНТАКТЫ -->
+<div class="section-wrap" id="contacts" style="border-bottom:none">
+  <div class="section-inner">
+    <span class="section-label">Контакты</span>
+    <h2>Flash-Format</h2>
+    <p class="section-meta">ООО «Флеш-Формат» · Иркутск</p>
+    <div class="contact-grid">
+      <div class="contact-card"><label>Телефон</label><p><a href="tel:+73952567150">+7 (3952) 567-150</a></p></div>
+      <div class="contact-card"><label>Email</label><p><a href="mailto:202@567150.ru">202@567150.ru</a></p></div>
+      <div class="contact-card"><label>Сайт</label><p><a href="https://flashformat.pro" target="_blank">flashformat.pro</a></p></div>
+      <div class="contact-card"><label>Менеджер</label><p>Марина Стадникова</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    © 2026 <span class="footer-accent">Flash-Format</span> · ООО «Флеш-Формат» · Иркутск · <a href="mailto:202@567150.ru">202@567150.ru</a>
+  </div>
+</footer>
+
+<script>
+var sections = document.querySelectorAll('[id]');
+var navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', function() {
+  var y = window.scrollY + 80;
+  sections.forEach(function(sec) {
+    if (y >= sec.offsetTop && y < sec.offsetTop + sec.offsetHeight) {
+      navLinks.forEach(function(a) { a.classList.remove('active'); });
+      var lnk = document.querySelector('nav a[href="#' + sec.id + '"]');
+      if (lnk) lnk.classList.add('active');
+    }
+  });
+}, {passive:true});
+</script>
+</body>
+</html>
